@@ -1,8 +1,8 @@
 package com.onmo.wgames.sdk.impl.api;
 
 import android.database.Cursor;
+import android.net.Uri;
 
-import com.onmo.wgames.sdk.ConfigurationParser;
 import com.onmo.wgames.sdk.IResponseHandler;
 import com.onmo.wgames.sdk.LogApp;
 import com.onmo.wgames.sdk.SDKConnector;
@@ -24,6 +24,9 @@ public class GetUserId extends APIBaseHandler {
 	private SDKConnector mConnector;
 	private IResponseHandler<String> responseHandler;
 
+	private static String PROVIDER_NAME = "com.onmo.ugames.wrapper.impl.UGamesDataProvider"; // TODO this need to update from config
+	private static final String URL = "content://" + PROVIDER_NAME + "/cte";
+	static final Uri CONTENT_URI = Uri.parse(URL);
 
 
 	public GetUserId(SDKConnector connector, IResponseHandler<String> response){
@@ -37,7 +40,7 @@ public class GetUserId extends APIBaseHandler {
 		LogApp.d(TAG, "getUser() calling initAPIRequest");
 
 
-		Cursor cursor = mConnector.getApplicationContext().getContentResolver().query(SDKConnector.CONTENT_URI, null, null, null, null);
+		Cursor cursor = mConnector.getApplicationContext().getContentResolver().query(CONTENT_URI, null, null, null, null);
 		//Cursor cursor = null;
 
 		if(cursor!=null)
