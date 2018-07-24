@@ -2,6 +2,7 @@ package com.onmo.wgames.sdk.impl.api;
 
 import android.database.Cursor;
 
+import com.onmo.wgames.sdk.ConfigurationParser;
 import com.onmo.wgames.sdk.IResponseHandler;
 import com.onmo.wgames.sdk.LogApp;
 import com.onmo.wgames.sdk.SDKConnector;
@@ -36,8 +37,8 @@ public class GetUserId extends APIBaseHandler {
 		LogApp.d(TAG, "getUser() calling initAPIRequest");
 
 
-		//Cursor cursor = mConnector.getApplicationContext().getContentResolver().query(CONTENT_URI, null, null, null, null);
-		Cursor cursor = null;
+		Cursor cursor = mConnector.getApplicationContext().getContentResolver().query(SDKConnector.CONTENT_URI, null, null, null, null);
+		//Cursor cursor = null;
 
 		if(cursor!=null)
 		{
