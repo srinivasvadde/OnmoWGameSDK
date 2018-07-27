@@ -1,14 +1,17 @@
 package com.onmo.wgames.sdk.impl.api;
 
 
+import android.database.Cursor;
+
 import com.onmo.wgames.sdk.ConfigurationParser;
 import com.onmo.wgames.sdk.LogApp;
 import com.onmo.wgames.sdk.SDKConnector;
-import com.onmo.wgames.sdk.db.SDKParamCache;
 import com.onmo.wgames.sdk.core.http.ApiInvoker;
 import com.onmo.wgames.sdk.core.http.IApiInvoker;
 import com.onmo.wgames.sdk.core.http.parser.IHTTPResponseParser;
 import com.onmo.wgames.sdk.core.http.request.IRequestPacket;
+import com.onmo.wgames.sdk.db.SDKParamCache;
+import com.onmo.wgames.sdk.impl.UProviderInfo;
 
 public class APIBaseHandler implements IAPIHandler {
 	public IHTTPResponseParser mHttpResponseParser;
@@ -52,6 +55,22 @@ public class APIBaseHandler implements IAPIHandler {
 
 	public String getBaseUrl(){
 		return SDKParamCache.getCachedParams(mConnector.getApplicationContext(), SDKParamCache.PREFS_BASE_URL).concat("/");
+	}
+
+
+	public Cursor getQuaryCursor(String methodName)
+	{
+		try {
+			return mConnector.getApplicationContext().getContentResolver().query(UProviderInfo.getContentUri(methodName), null, null, null, null);
+
+		}
+		catch (Exception ex)
+		{
+			LogApp.d("APIBaseHandler", "Get exception "+ex.getMessage());
+
+			return null;
+		}
+
 	}
 
 }

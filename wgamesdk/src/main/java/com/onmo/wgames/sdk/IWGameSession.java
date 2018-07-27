@@ -6,8 +6,7 @@ package com.onmo.wgames.sdk;
  */
 
 public interface IWGameSession {
-
 	WGameAccess getAccess();
-	void getConfig(IResponseHandler<String> responseHandler);
-	void getStoreUser(IResponseHandler<String> responseHandler);
+	void isUserActive(IResponseHandler<Boolean> responseHandler);
+	void getUserId(IResponseHandler<String> responseHandler);
 }

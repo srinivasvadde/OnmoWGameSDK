@@ -1,6 +1,5 @@
 package com.onmo.wgames;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 
 import com.onmo.wgames.sdk.IResponseHandler;
 import com.onmo.wgames.sdk.IWGameSession;
-import com.onmo.wgames.sdk.LibMainActivity;
 import com.onmo.wgames.sdk.OnmoWGSDK;
 import com.onmo.wgames.sdk.SDKException;
 
@@ -25,7 +23,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.lib_activity_main);
+        setContentView(R.layout.activity_main);
         tv_method_1 = findViewById(R.id.tv_method_1);
         tv_method_2 = findViewById(R.id.tv_method_2);
 
@@ -44,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
 
                 if(mWGSession!=null)
                 {
-                    mWGSession.getStoreUser(new IResponseHandler<String>() {
+                    mWGSession.getUserId(new IResponseHandler<String>() {
                         @Override
                         public void handleResponse(String aUserId) {
                             response_message.setText("User id:"+aUserId);
@@ -63,8 +61,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    Intent intent = new Intent(MainActivity.this, LibMainActivity.class);
-                    startActivity(intent);
+                   /* Intent intent = new Intent(MainActivity.this, LibMainActivity.class);
+                    startActivity(intent);*/
                 }
                catch (Exception ex)
                {
@@ -79,10 +77,10 @@ public class MainActivity extends AppCompatActivity {
 
                 if(mWGSession!=null)
                 {
-                    mWGSession.getConfig(new IResponseHandler<String>() {
+                    mWGSession.isUserActive(new IResponseHandler<Boolean>() {
                         @Override
-                        public void handleResponse(String config) {
-                            response_message.setText("getConfig:"+config);
+                        public void handleResponse(Boolean config) {
+                            response_message.setText("isUserActive:"+config.booleanValue());
                         }
 
                         @Override

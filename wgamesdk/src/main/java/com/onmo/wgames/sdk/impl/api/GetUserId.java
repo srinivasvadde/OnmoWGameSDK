@@ -1,7 +1,6 @@
 package com.onmo.wgames.sdk.impl.api;
 
 import android.database.Cursor;
-import android.net.Uri;
 
 import com.onmo.wgames.sdk.IResponseHandler;
 import com.onmo.wgames.sdk.LogApp;
@@ -9,6 +8,7 @@ import com.onmo.wgames.sdk.SDKConnector;
 import com.onmo.wgames.sdk.core.http.request.IRequestPacket;
 import com.onmo.wgames.sdk.core.http.request.RequestPacket;
 import com.onmo.wgames.sdk.core.http.request.RequestPacketConstant;
+import com.onmo.wgames.sdk.impl.UProviderInfo;
 import com.onmo.wgames.sdk.impl.handler.GetUserIdHandler;
 
 import java.util.HashMap;
@@ -24,11 +24,6 @@ public class GetUserId extends APIBaseHandler {
 	private SDKConnector mConnector;
 	private IResponseHandler<String> responseHandler;
 
-	private static String PROVIDER_NAME = "com.onmo.ugames.wrapper.impl.UGamesDataProvider"; // TODO this need to update from config
-	private static final String URL = "content://" + PROVIDER_NAME + "/cte";
-	static final Uri CONTENT_URI = Uri.parse(URL);
-
-
 	public GetUserId(SDKConnector connector, IResponseHandler<String> response){
 		super(connector, RequestPacketConstant.ServiceKeys.SERVICE_GET_USER_ID);
 		this.mConnector = connector;
@@ -37,11 +32,8 @@ public class GetUserId extends APIBaseHandler {
 
 	public void getUser() {
 
-		LogApp.d(TAG, "getUser() calling initAPIRequest");
 
-
-		Cursor cursor = mConnector.getApplicationContext().getContentResolver().query(CONTENT_URI, null, null, null, null);
-		//Cursor cursor = null;
+		Cursor cursor = getQuaryCursor(UProviderInfo.URL_GET_USER_ID);
 
 		if(cursor!=null)
 		{
@@ -52,24 +44,17 @@ public class GetUserId extends APIBaseHandler {
 				StringBuilder res = new StringBuilder();
 				while (!cursor.isAfterLast()) {
 					res.append("\n" + cursor.getString(cursor.getColumnIndex("id")) + "-" + cursor.getString(cursor.getColumnIndex("name")));
-
 					data = cursor.getString(cursor.getColumnIndex("name"));
 					cursor.moveToNext();
 
 				}
-
 				LogApp.d(TAG, "getUser()  -->"+res);
-				//resultView.setText(res);
-
-
 				if(data!=null) {
 					responseHandler.handleResponse(data);
 				}
 			}
 		}
 		else {
-			//Uri uri = (UGamesDataProvider.CONTENT_URI);
-
 			initAPIRequest(getRequestPacket(), new GetUserIdHandler(mConnector, responseHandler));
 		}
 

@@ -1,8 +1,7 @@
 package com.onmo.wgames.sdk;
 
-import android.util.Log;
-
 import com.onmo.wgames.sdk.impl.api.GetUserId;
+import com.onmo.wgames.sdk.impl.api.GetUserProfile;
 
 /**
  * Created by Srini on 14/02/2018.
@@ -28,16 +27,13 @@ public class WGameSession implements IWGameSession {
 	}
 
 	@Override
-	public void getConfig(IResponseHandler<String> responseHandler) {
+	public void isUserActive(IResponseHandler<Boolean> responseHandler) {
 
-
-		//TODO yet to implement
-		Log.d("WGameSession","getConfig-->");
-
+		new GetUserProfile(mConnector, responseHandler).getUserProfile();
 	}
 
 	@Override
-	public void getStoreUser(IResponseHandler<String> responseHandler) {
+	public void getUserId(IResponseHandler<String> responseHandler) {
 		new GetUserId(mConnector, responseHandler).getUser();
 	}
 
